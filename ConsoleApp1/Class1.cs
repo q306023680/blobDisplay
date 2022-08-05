@@ -32,7 +32,9 @@ namespace BlobTest
    
         internal void Test1()
         {
-            Mat src = Cv2.ImRead(@"D:\Image\T231019222660366\POS1.png", ImreadModes.Unchanged);
+            string startpath = AppDomain.CurrentDomain.BaseDirectory;
+            string filepath = @"..\..\..\..\TestImage\POS1.png";
+            Mat src = Cv2.ImRead(filepath, ImreadModes.Unchanged);
             //Mat gray = new Mat();
             Mat img_edge = new Mat();
             //Cv2.CvtColor(src, gray, ColorConversionCodes.RGB2GRAY);
@@ -60,7 +62,7 @@ namespace BlobTest
 
 
             Render_Counter(ref img_color4, points[0]);
-            Cv2.ImWrite(@"E:\Opencv TestImage\img_color4.png", img_color4);
+            //Cv2.ImWrite(@"..\..\..\..\ResultImage\img_color4.png", img_color4);
 
             //Console.WriteLine($"nccomps:{nccomps}");
 
@@ -160,29 +162,29 @@ namespace BlobTest
                 }
             }
 
-            
-            //Cv2.ImWrite(@"E:\Opencv TestImage\img_edge.png", img_edge);
-            Cv2.ImWrite(@"E:\Opencv TestImage\region.png", region);
-            //Cv2.ImWrite(@"E:\Opencv TestImage\img_color1.png", img_color1);
-            //Cv2.ImWrite(@"E:\Opencv TestImage\img_color.png", img_color);
-            //Cv2.ImWrite(@"E:\Opencv TestImage\img_color2.png", img_color2);
+
+            //Cv2.ImWrite(@"..\..\..\..\ResultImage\img_edge.png", img_edge);
+            //Cv2.ImWrite(@"..\..\..\..\ResultImage\stats.png", region);
+            //Cv2.ImWrite(@"..\..\..\..\ResultImage\img_color1.png", img_color1);
+            //Cv2.ImWrite(@"..\..\..\..\ResultImage\img_color.png", img_color);
+            //Cv2.ImWrite(@"..\..\..\..\ResultImage\img_color2.png", img_color2);
 
             //labelnums.Clear();
             Cv2.NamedWindow("原图", WindowFlags.GuiExpanded);
             Cv2.ResizeWindow("原图", 480, 320);
             Cv2.ImShow("原图", src);
 
-            Cv2.NamedWindow("img_color2", WindowFlags.GuiExpanded);
-            Cv2.ResizeWindow("img_color2", 480, 320);
-            Cv2.ImShow("img_color2", img_color2);
+            Cv2.NamedWindow("labels 显示", WindowFlags.GuiExpanded);
+            Cv2.ResizeWindow("labels 显示", 480, 320);
+            Cv2.ImShow("labels 显示", img_color2);
 
             //Cv2.NamedWindow("img_edge", WindowFlags.Normal);
             //Cv2.ResizeWindow("img_edge", 480, 320);
             //Cv2.ImShow("img_edge", img_edge);
 
-            Cv2.NamedWindow("region", WindowFlags.GuiExpanded);
-            Cv2.ResizeWindow("region", 480, 320);
-            Cv2.ImShow("region", region);
+            Cv2.NamedWindow("stats 显示", WindowFlags.GuiExpanded);
+            Cv2.ResizeWindow("stats 显示", 480, 320);
+            Cv2.ImShow("stats 显示", region);
 
             //Cv2.NamedWindow("img_edge1", WindowFlags.Normal);
             //Cv2.ResizeWindow("img_edge1", 480, 320);
@@ -192,7 +194,7 @@ namespace BlobTest
             //Cv2.NamedWindow("img_color", WindowFlags.Normal);
             //Cv2.ResizeWindow("img_color", 480, 320);
             //Cv2.ImShow("img_color", img_color);
-            //Cv2.ImWrite(@"E:\Opencv TestImage\1.png", img_edge);
+            //Cv2.ImWrite(@"..\..\...\..\ResultImage\1.png", img_edge);
 
             Cv2.WaitKey();
         }
@@ -282,59 +284,5 @@ namespace BlobTest
             }
         }
 
-        internal void Test()
-        {
-            Mat src = Cv2.ImRead(@"D:\Image\T231019222660366\POS1.png", ImreadModes.Unchanged);
-
-            SimpleBlobDetector.Params p = new SimpleBlobDetector.Params();
-
-            //阈值控制
-            p.ThresholdStep = 5;//搜索阈值步长
-            p.MinThreshold = 168;//最小阈值
-            p.MaxThreshold = 255;//最大阈值
-
-            p.FilterByColor = true;
-            p.BlobColor = 220;
-            p.FilterByArea = false;
-            p.FilterByCircularity = false;
-            p.FilterByConvexity = false;
-            p.FilterByInertia = false;
-
-            //p.MinRepeatability = 2;
-            //p.MinDistBetweenBlobs = 10;
-            //p.FilterByColor = true;
-
-            ////像素面积大小控制
-            //p.FilterByArea = true;
-            //p.MinArea = 1000;
-            ////形状（凸）
-            //p.FilterByCircularity = false;
-            //p.MinCircularity = 0.7f;
-            ////形状（园）
-            //p.FilterByInertia = false;
-            //p.MinInertiaRatio = 0.5f;
-
-
-            SimpleBlobDetector detector = SimpleBlobDetector.Create(p);
-            //Mat mark= new Mat(src.Rows, src.Cols, src.Type());
-            KeyPoint[] keyPoints = detector.Detect(src);
-            //Mat dst = new Mat();
-            Mat dst = new Mat(src.Size(), MatType.CV_8SC3);
-            Cv2.DrawKeypoints(src, keyPoints, dst, new Scalar(0, 0, 255), DrawMatchesFlags.DrawRichKeypoints);
-
-            Cv2.NamedWindow("原图", WindowFlags.Normal);
-            Cv2.ResizeWindow("原图", 480, 320);
-            Cv2.ImShow("原图", src);
-
-            //奇奇怪怪显示不出来
-            //Cv2.NamedWindow("效果图", WindowFlags.Normal);
-            //Cv2.ResizeWindow("效果图", 480, 320);
-            //Cv2.ImShow("效果图", dst);
-
-            //奇怪的能保存
-            Cv2.ImWrite(@"E:\Opencv TestImage\1.png", dst);
-
-            Cv2.WaitKey();
-        }
     }
 }
