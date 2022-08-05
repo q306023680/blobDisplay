@@ -32,6 +32,7 @@ namespace BlobTest
    
         internal void Test1()
         {
+
             string startpath = AppDomain.CurrentDomain.BaseDirectory;
             string filepath = @"..\..\..\..\TestImage\POS1.png";
             Mat src = Cv2.ImRead(filepath, ImreadModes.Unchanged);
